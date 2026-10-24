@@ -1,0 +1,1 @@
+import './globals.css'; export const metadata={title:'CHeeQ Medical | Health & Wellness Store',description:'CHeeQ medical and wellness shopping'}; export default function RootLayout({children}){return <html lang="en"><body>{children}</body></html>}

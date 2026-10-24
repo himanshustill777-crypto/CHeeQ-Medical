@@ -25,6 +25,7 @@ const categoryArt={
 'Skin Care':'https://shop.olivaclinic.com/cdn/shop/files/Artboard_39_1200x1200.jpg?v=1783590308',
 'Pain Relief':'https://www.jiomart.com/images/product/original/rv2jkbjeam/mycure-rubber-water-bottle-2-l-hot-water-bag-for-pain-relief-massager-pink-product-images-orv2jkbjeam-p599201817-0-202303272032.jpg?im=Resize%3D%28420%2C420%29'
 };
+const categories=['Vitamins & Supplements','Monitoring Devices','Food & Nutrition','Skin Care','Men Care','Women Care','Elderly Care','Pain Relief','Supports & Braces','Gut Care','Diabetes Care','Hair Care','Oral Care','Cold, Cough & Fever','First Aid','Baby Care','Respiratory Care'];
 const generated=productNames.map((n,i)=>{const mrp=199+(i%18)*110;const discount=12+(i*7)%54;const price=Math.round(mrp*(100-discount)/100);return [n,categories[i%categories.length],price,mrp,(productImageMap[n]||categoryArt[categories[i%categories.length]]||'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=75')]});
 const products=[...baseProducts,...generated].slice(0,100);
 export default function Home(){return <main className="shop">

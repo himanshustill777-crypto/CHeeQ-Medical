@@ -9,9 +9,23 @@ const baseProducts=[
 ['Skin Care Essentials','Personal Care',749,999,'https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=700&q=80']
 ];
 const productNames=['Pain Relief Gel','Hand Sanitizer','Face Mask Pack','Glucose Monitor Strips','Protein Nutrition Mix','Multivitamin Tablets','Calcium Tablets','ORS Sachets','Hot Water Bag','Nebulizer Mask','Pulse Oximeter','Steam Vaporizer','Heating Pad','Cotton Roll','Crepe Bandage','Antiseptic Liquid','Baby Lotion','Baby Shampoo','Diaper Pack','Wet Wipes','Sunscreen Lotion','Moisturizer','Face Wash','Lip Balm','Hair Oil','Shampoo','Body Wash','Hand Wash','Toothpaste','Toothbrush Pack','Mouthwash','Digital Weighing Scale','Knee Support','Ankle Support','Wrist Support','Back Support Belt','Cervical Pillow','Eye Mask','Cold Pack','Hot Cold Pack','First Aid Tape','Gauze Pads','Disposable Gloves','Thermometer Cover','Medicine Organizer','Pill Cutter','Travel First Aid Kit','Mosquito Repellent','Insect Bite Relief','Foot Care Cream','Hand Cream','Aloe Vera Gel','Vitamin D Tablets','Zinc Tablets','Iron Tablets','B-Complex Tablets','Electrolyte Drink','Energy Drink Mix','Nutrition Bar','Herbal Tea','Green Tea','Sugar Free Sweetener','Diabetic Socks','Compression Socks','Adult Diapers','Underpads','Bed Protector','Walking Stick','Lumbar Cushion','Posture Corrector','Resistance Band','Yoga Mat','Ice Bag','Heat Patch','Pain Relief Spray','Cough Drops','Throat Lozenges','Saline Nasal Spray','Digital Timer','Baby Feeding Bottle','Baby Powder','Baby Oil','Baby Soap','Nursing Pads','Pregnancy Test Kit','Sanitary Pads','Panty Liners','Intimate Wash','Razors Pack','Shaving Foam','Deodorant','Talcum Powder','Petroleum Jelly','Micropore Tape','Surgical Mask','N95 Mask'];
-const stockImgs=['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=75','https://images.unsplash.com/photo-1603398938378-e54eab446dde?auto=format&fit=crop&w=600&q=75','https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=75','https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=75'];
-const categories=['Vitamins & Supplements','Monitoring Devices','Food & Nutrition','Skin Care','Men Care','Women Care','Elderly Care','Pain Relief','Supports & Braces','Gut Care','Diabetes Care','Hair Care','Oral Care','Cold, Cough & Fever','First Aid','Baby Care','Respiratory Care'];
-const generated=productNames.map((n,i)=>{const mrp=199+(i%18)*110;const discount=12+(i*7)%54;const price=Math.round(mrp*(100-discount)/100);return [n,categories[i%categories.length],price,mrp,stockImgs[i%stockImgs.length]]});
+const productImageMap={
+'Digital Thermometer':'https://img.medicalexpo.com/images_me/photo-g/70448-18426150.webp',
+'Vitamin C Tablets':'https://media.superdrug.com/medias/sys_master/prd-images/hf4/h87/12825582469150/prd-side-851033_600x600/prd-side-851033-600x600.jpg',
+'First Aid Kit':'https://cdn01.pharmeasy.in/dam/products_otc/L51315/stergic-first-aid-kit-box-compact-medical-emergency-kit-for-home-office-travel-outdoor-use-1-nos-6.01-1763126175.jpg?dim=768x585&q=100',
+'BP Monitor':'https://static-data2.manualslib.com/product-images/640/1592689/citizen-chud514-blood-pressure-monitor.jpg',
+'Pulse Oximeter':'https://images.prom.ua/2750583036_w640_h640_2750583036.jpg',
+'Hot Water Bag':'https://www.jiomart.com/images/product/original/rv2jkbjeam/mycure-rubber-water-bottle-2-l-hot-water-bag-for-pain-relief-massager-pink-product-images-orv2jkbjeam-p599201817-0-202303272032.jpg?im=Resize%3D%28420%2C420%29',
+'Sunscreen Lotion':'https://shop.olivaclinic.com/cdn/shop/files/Artboard_39_1200x1200.jpg?v=1783590308'
+};
+const categoryArt={
+'Vitamins & Supplements':'https://media.superdrug.com/medias/sys_master/prd-images/hf4/h87/12825582469150/prd-side-851033_600x600/prd-side-851033-600x600.jpg',
+'Monitoring Devices':'https://static-data2.manualslib.com/product-images/640/1592689/citizen-chud514-blood-pressure-monitor.jpg',
+'First Aid':'https://cdn01.pharmeasy.in/dam/products_otc/L51315/stergic-first-aid-kit-box-compact-medical-emergency-kit-for-home-office-travel-outdoor-use-1-nos-6.01-1763126175.jpg?dim=768x585&q=100',
+'Skin Care':'https://shop.olivaclinic.com/cdn/shop/files/Artboard_39_1200x1200.jpg?v=1783590308',
+'Pain Relief':'https://www.jiomart.com/images/product/original/rv2jkbjeam/mycure-rubber-water-bottle-2-l-hot-water-bag-for-pain-relief-massager-pink-product-images-orv2jkbjeam-p599201817-0-202303272032.jpg?im=Resize%3D%28420%2C420%29'
+};
+const generated=productNames.map((n,i)=>{const mrp=199+(i%18)*110;const discount=12+(i*7)%54;const price=Math.round(mrp*(100-discount)/100);return [n,categories[i%categories.length],price,mrp,(productImageMap[n]||categoryArt[categories[i%categories.length]]||'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=75')]});
 const products=[...baseProducts,...generated].slice(0,100);
 export default function Home(){return <main className="shop">
 <div className="trustbar"><span>✓ Genuine Products</span><span>✓ Great Offers</span><span>✓ Fast Delivery</span><span>✓ Secure Payment</span><span className="push">Track Order　 Help & Support</span></div>

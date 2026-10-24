@@ -27,7 +27,7 @@ const products=[
 ['Volini Pain Relief Gel 30 gm','Pain Relief',122,160,'https://onemg.gumlet.io/l_watermark_346%2Cw_480%2Ch_480/a_ignore%2Cw_480%2Ch_480%2Cc_fit%2Cq_auto%2Cf_auto/','Topical pain-relief gel for sprain, muscle, joint, neck and low-back pain.']
 ,
 ['PAN 40 Tablet - 15 tablets','Prescription Medicine',192.8,192.8,'https://onemg.gumlet.io/l_watermark_346,w_480,h_480/a_ignore,w_480,h_480,c_fit,q_auto,f_auto/','Pantoprazole 40mg; prescribed for acid reflux and other acid-related stomach conditions.','rx'],
-['PAN IV Injection - 40mg vial','Prescription Injection',53.9,53.9,'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=700&q=80','Pantoprazole 40mg injection; prescription-only medicine administered under medical supervision.','rx']
+['PAN IV Injection - 40mg vial','Prescription Injection',48.51,53.9,'https://static.oxinis.com/healthmug/image/product/78648-1-800.webp','Pantoprazole 40mg injection; prescription-only medicine administered under medical supervision.','rx']
 ];
 export default function Home(){return <main className="shop">
 <div className="trustbar"><span>✓ Genuine Products</span><span>✓ Great Offers</span><span>✓ Fast Delivery</span><span>✓ Secure Payment</span><span className="push">Track Order　 Help & Support</span></div>

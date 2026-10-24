@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function ComingSoon(){return <main className="soonPage"><div className="soonWatermark"><span>+</span><b>CHeeQ</b></div><section className="soonCard"><Link href="/" className="soonBrand"><strong>+</strong><span>CHeeQ <small>MEDICAL</small></span></Link><div className="soonIcon">⚕</div><h1>Coming Soon</h1><p>We’re preparing this CHeeQ Medical service for you. It will be available here once the feature is ready and verified.</p><Link href="/" className="soonHome">← Back to Home</Link></section></main>}

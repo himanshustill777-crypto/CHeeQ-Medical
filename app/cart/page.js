@@ -1,0 +1,1 @@
+export default function Page(){return <main className="simple"><a href="/">← Continue shopping</a><h1>Your Cart</h1><div className="empty">Your cart is currently empty.<br/><a href="/#shop">Browse products</a></div></main>}

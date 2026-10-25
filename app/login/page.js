@@ -1,1 +1,0 @@
-export default function Page(){return <main className="simple"><a href="/">← Home</a><h1>Login to CHeeQ</h1><p>Enter your mobile number to continue.</p><input placeholder="Mobile number"/><button>Continue</button><p className="note">OTP/device verification will be connected with the production authentication backend.</p></main>}

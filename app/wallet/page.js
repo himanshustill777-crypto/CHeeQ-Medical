@@ -1,1 +1,0 @@
-export default function Page(){return <main className="simple"><a href="/">← Home</a><h1>CHeeQ Wallet</h1><div className="panel"><h2>Payment Wallet</h2><h3>Coming Soon</h3><p>Wallet payment service is currently being prepared and is not available yet.</p><button disabled>Coming Soon</button></div></main>}

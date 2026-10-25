@@ -1,1 +1,0 @@
-export default function Page(){return <main className="simple"><a href="/">← Home</a><h1>Track Order</h1><p>Enter your CHeeQ order number.</p><input placeholder="Order ID"/><button>Track</button></main>}

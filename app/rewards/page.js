@@ -1,1 +1,0 @@
-export default function Page(){return <main className="simple"><a href="/">← Home</a><h1>CHeeQ Rewards</h1><div className="panel"><h2>Earn as you shop</h2><p>Eligible purchases can earn reward points for future CHeeQ orders. Final earning and redemption rules will be shown before launch.</p></div></main>}

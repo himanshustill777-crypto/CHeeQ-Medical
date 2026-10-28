@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import {useMemo,useState} from 'react';
+import {useMemo,useState,useEffect} from 'react';
 const options=[
 ['Website & IT Services','₹4,999 onwards','5–15 working days'],
 ['Social Media Management','₹2,999 / month','Monthly service cycle'],
@@ -13,7 +13,7 @@ const options=[
 ['Business Package','₹7,999','Website + digital scope confirmed']
 ];
 export default function Order(){
- const [service,setService]=useState(options[0][0]); const [sent,setSent]=useState(false); const [reference,setReference]=useState(''); const [error,setError]=useState(''); const [busy,setBusy]=useState(false);
+ const [service,setService]=useState(options[0][0]); useEffect(()=>{const requested=new URLSearchParams(window.location.search).get('service');if(requested&&options.some(x=>x[0]===requested))setService(requested)},[]); const [sent,setSent]=useState(false); const [reference,setReference]=useState(''); const [error,setError]=useState(''); const [busy,setBusy]=useState(false);
  const selected=useMemo(()=>options.find(x=>x[0]===service),[service]);
  async function submit(e){e.preventDefault();setError('');setBusy(true);const d=new FormData(e.currentTarget);try{const r=await fetch('https://cheq-cheq-ce9ed76b.vercel.app/api/cheq-digital-orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...Object.fromEntries(d.entries()),service,price:selected[1]})});const x=await r.json();if(!r.ok)throw Error(x.error||'Submission failed');setReference(x.order.reference);setSent(true);window.scrollTo({top:0,behavior:'smooth'})}catch(e){setError(e.message||'Please try again')}finally{setBusy(false)}}
  return <main className="policyPage orderPage"><header className="policyHeader"><Link href="/" className="policyBrand"><b>C</b><span>CHeQ<small>DIGITAL</small></span></Link><Link href="/">‹  Back to home</Link></header>

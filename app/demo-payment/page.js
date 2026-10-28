@@ -1,4 +1,10 @@
-'use client';
-import {useEffect,useState} from 'react';
-import Link from 'next/link';
-export default function DemoPayment(){const [order,setOrder]=useState(null);useEffect(()=>{const q=new URLSearchParams(window.location.search);setOrder({name:q.get('name')||'',amount:Number(q.get('amount')),service:q.get('service')||'',reference:q.get('reference')||''})},[]);return <main className="policyPage orderPage"><header className="policyHeader"><Link href="/">CHeQ DIGITAL</Link><span>Demo checkout</span></header><section className="policyHero digitalPolicy"><div><small>PAYMENT PREVIEW · NO REAL CHARGE</small><h1>Demo Payment Page</h1><p>This is a preview of the payment handoff. Razorpay is not connected here.</p></div></section><section className="orderForm">{order&&order.name&&Number.isFinite(order.amount)&&order.amount>0?<><h2>CHeQ DIGITAL</h2><div className="orderSummary" style={{display:'block'}}><p><b>Amount:</b> ₹{order.amount.toLocaleString('en-IN')}</p></div><button className="orderSubmit" type="button" disabled>Razorpay Checkout — Coming Soon</button><p>No payment will be collected. Do not enter card, UPI PIN or OTP on this demo.</p></>:<p>Missing or invalid demo order details.</p>}</section></main>}
+import {redirect} from 'next/navigation';
+export default async function DemoPayment({searchParams}){
+ const params=await searchParams;
+ const reference=typeof params?.reference==='string'?params.reference:'';
+ const email=typeof params?.email==='string'?params.email:'';
+ const query=new URLSearchParams();
+ if(reference)query.set('reference',reference);
+ if(email)query.set('email',email);
+ redirect('/internal/it-development'+(query.size?'?'+query.toString():''));
+}

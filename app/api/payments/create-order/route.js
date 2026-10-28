@@ -19,6 +19,11 @@ export async function POST(request){
   const razor=await fetch('https://api.razorpay.com/v1/orders',{method:'POST',headers:{Authorization:'Basic '+auth,'Content-Type':'application/json'},body:JSON.stringify({amount:paise,currency:'INR',receipt:reference,notes:{reference,service:order.service}}),cache:'no-store'});
   const data=await razor.json();
   if(!razor.ok||!data.id)return NextResponse.json({error:'Unable to start payment'},{status:502});
-  return NextResponse.json({key:process.env.RAZORPAY_KEY_ID,orderId:data.id,amount:paise,currency:'INR',reference});
+  if(!process.env.CHEQ_DIGITAL_PAYMENT_INTERNAL_KEY)return NextResponse.json({error:'Payment record service unavailable'},{status:503});
+  const saved=await fetch(base+'?action=payment-event',{method:'POST',headers:{'Content-Type':'application/json','x-payment-internal-key':process.env.CHEQ_DIGITAL_PAYMENT_INTERNAL_KEY},body:JSON.stringify({reference,gateway_order_id:data.id,amount_paise:paise,status:'created'}),cache:'no-store'});
+  if(!saved.ok)return NextResponse.json({error:'Unable to register payment order'},{status:502});
+  const {payment}=await saved.json();
+  if(payment.status==='captured'||payment.status==='authorized')return NextResponse.json({error:'Payment already recorded or awaiting capture. Contact support before paying again.'},{status:409});
+  return NextResponse.json({key:process.env.RAZORPAY_KEY_ID,orderId:payment.gateway_order_id,amount:paise,currency:'INR',reference});
  }catch{return NextResponse.json({error:'Payment setup unavailable'},{status:500})}
 }

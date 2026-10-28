@@ -1,0 +1,9 @@
+'use client';
+import {useEffect,useState} from 'react';
+import Link from 'next/link';
+export default function HiddenIT(){
+ const [name,setName]=useState(''),[amount,setAmount]=useState(''),[service,setService]=useState('IT Services & Development'),[error,setError]=useState('');
+ function forward(n,a,s){const v=Number(a);if(!n?.trim()||!Number.isFinite(v)||v<=0||v>10000000){setError('Enter a valid name and amount');return}const ref='DEMO-'+Date.now().toString(36).toUpperCase();window.location.replace('/demo-payment?'+new URLSearchParams({name:n.trim(),amount:String(v),service:s||'IT Services & Development',reference:ref}).toString())}
+ useEffect(()=>{const q=new URLSearchParams(window.location.search);const n=q.get('name'),a=q.get('amount'),s=q.get('service')||'IT Services & Development';if(n&&a)forward(n,a,s)},[]);
+ return <main className="policyPage orderPage"><header className="policyHeader"><Link href="/">CHeQ DIGITAL</Link><span>Internal demo only</span></header><section className="policyHero digitalPolicy"><div><small>HIDDEN · IT SERVICES & DEVELOPMENT</small><h1>Incoming order demo</h1><p>This page is not linked from the public website. When name and amount arrive in the URL, it automatically forwards to the demo checkout.</p></div></section><form className="orderForm" onSubmit={e=>{e.preventDefault();forward(name,amount,service)}}><label>Customer name<input required value={name} onChange={e=>setName(e.target.value)}/></label><label>Amount (INR)<input required type="number" min="1" value={amount} onChange={e=>setAmount(e.target.value)}/></label><label>Actual service<input required value={service} onChange={e=>setService(e.target.value)}/></label>{error&&<p role="alert">{error}</p>}<button className="orderSubmit">Forward to Demo Payment →</button><p>Demo only: no real payment or database order is created. Before connecting the shop, orders must be verified server-side and authenticated.</p></form></main>
+}

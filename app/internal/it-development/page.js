@@ -2,7 +2,7 @@
 import {useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
 export default function HiddenIT(){
- const [reference,setReference]=useState(''),[email,setEmail]=useState(''),[status,setStatus]=useState(''),[busy,setBusy]=useState(false);
+ const [status,setStatus]=useState('Loading approved payment...'),[busy,setBusy]=useState(false);
  const launched=useRef(false);
  async function pay(ref,mail){
   if(!/^CD-[A-F0-9]{12}$/.test(ref)||!/^\S+@\S+\.\S+$/.test(mail)){setStatus('A verified order reference and email are required.');return}
@@ -20,6 +20,6 @@ export default function HiddenIT(){
    checkout.open();
   }catch(e){setStatus(e.message)}finally{setBusy(false)}
  }
- useEffect(()=>{const q=new URLSearchParams(window.location.search);const ref=q.get('reference')||'',mail=q.get('email')||'';setReference(ref);setEmail(mail);if(ref&&mail&&!launched.current){launched.current=true;pay(ref,mail)}},[]);
- return <main className="policyPage orderPage"><header className="policyHeader"><Link href="/">CHEQ DIGITAL</Link><span>Secure payment</span></header><section className="policyHero digitalPolicy"><div><small>SECURE RAZORPAY CHECKOUT</small><h1>CHEQ DIGITAL</h1><p>Only approved orders can be paid. Amount is securely loaded from your approved quotation.</p></div></section><form className="orderForm" onSubmit={e=>{e.preventDefault();pay(reference,email)}}><label>Approved order reference<input required value={reference} onChange={e=>setReference(e.target.value)}/></label><label>Customer email<input required type="email" value={email} onChange={e=>setEmail(e.target.value)}/></label><button className="orderSubmit" disabled={busy}>{busy?'Opening Razorpay...':'Open Razorpay Checkout'}</button><p role="status">{status}</p></form></main>
+ useEffect(()=>{const q=new URLSearchParams(window.location.search);const ref=q.get('reference')||'',mail=q.get('email')||'';if(ref&&mail&&!launched.current){launched.current=true;pay(ref,mail)}else if(!ref||!mail){setStatus('Approved payment link is incomplete. Please return to the original service and tap Pay Now again.')}},[]);
+ return <main className="policyPage orderPage"><header className="policyHeader"><Link href="/">CHEQ DIGITAL</Link><span>Secure payment</span></header><section className="policyHero digitalPolicy"><div><small>SECURE RAZORPAY CHECKOUT</small><h1>CHEQ DIGITAL</h1><p>Approved service payment. Checkout opens automatically when a valid approved order link is provided.</p></div></section><section className="orderForm"><p role="status">{busy?'Opening Razorpay Checkout...':status}</p></section></main>
 }

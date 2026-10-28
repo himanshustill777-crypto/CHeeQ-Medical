@@ -18,6 +18,9 @@ export async function POST(request){
   const quote=String(project.quote||'').replace(/,/g,'').trim().match(/^(?:₹|INR\s*)?(\d+(?:\.\d{1,2})?)$/i);
   const expected=quote?Math.round(Number(quote[1])*100):0;
   if(payment.order_id!==razorpay_order_id||gatewayOrder.receipt!==reference||payment.amount!==expected||gatewayOrder.amount!==expected||payment.currency!=='INR'||project.status!=='Approved')return NextResponse.json({error:'Payment/order mismatch; contact support'},{status:409});
+  if(!process.env.CHEQ_DIGITAL_PAYMENT_INTERNAL_KEY)return NextResponse.json({error:'Payment record connection not configured. Contact support.'},{status:503});
+  const record=await fetch('https://cheq-cheq-ce9ed76b.vercel.app/api/cheq-digital-orders?action=payment-event',{method:'POST',headers:{'Content-Type':'application/json','x-payment-internal-key':process.env.CHEQ_DIGITAL_PAYMENT_INTERNAL_KEY},body:JSON.stringify({reference,gateway_order_id:razorpay_order_id,gateway_payment_id:razorpay_payment_id,amount_paise:payment.amount,status:payment.status==='captured'?'captured':payment.status==='authorized'?'authorized':'failed'}),cache:'no-store'});
+  if(!record.ok)return NextResponse.json({error:'Payment verified, but record synchronization is pending. Contact support with payment ID.'},{status:502});
   return NextResponse.json({verified:true,captured:payment.status==='captured',paymentId:razorpay_payment_id,status:payment.status});
  }catch{return NextResponse.json({error:'Verification unavailable'},{status:500})}
 }

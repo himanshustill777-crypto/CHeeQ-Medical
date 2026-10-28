@@ -15,6 +15,15 @@ export async function POST(request){
   if(!match)return NextResponse.json({error:'A numeric final quotation is required'},{status:422});
   const paise=Math.round(Number(match[1])*100);
   if(!Number.isSafeInteger(paise)||paise<100||paise>100000000)return NextResponse.json({error:'Invalid approved amount'},{status:422});
+  if(!process.env.CHEQ_DIGITAL_PAYMENT_INTERNAL_KEY)return NextResponse.json({error:'Payment record service unavailable'},{status:503});
+  const state=await fetch(base+'?'+new URLSearchParams({action:'payment-state',reference}),{headers:{'x-payment-internal-key':process.env.CHEQ_DIGITAL_PAYMENT_INTERNAL_KEY},cache:'no-store'});
+  if(!state.ok)return NextResponse.json({error:'Payment status unavailable'},{status:503});
+  const {payment:existing}=await state.json();
+  if(existing){
+   if(existing.status==='captured'||existing.status==='authorized')return NextResponse.json({error:'Payment already recorded or awaiting capture. Contact support.'},{status:409});
+   if(Number(existing.amount_paise)!==paise)return NextResponse.json({error:'Existing payment amount mismatch. Contact support.'},{status:409});
+   return NextResponse.json({key:process.env.RAZORPAY_KEY_ID,orderId:existing.gateway_order_id,amount:paise,currency:'INR',reference,reused:true});
+  }
   const auth=Buffer.from(process.env.RAZORPAY_KEY_ID+':'+process.env.RAZORPAY_KEY_SECRET).toString('base64');
   const razor=await fetch('https://api.razorpay.com/v1/orders',{method:'POST',headers:{Authorization:'Basic '+auth,'Content-Type':'application/json'},body:JSON.stringify({amount:paise,currency:'INR',receipt:reference,notes:{reference,service:order.service}}),cache:'no-store'});
   const data=await razor.json();

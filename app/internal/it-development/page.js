@@ -18,7 +18,7 @@ export default function HiddenIT(){
     setStatus('Verifying payment...');
     try{const response=await fetch('/api/payments/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...result,reference:ref,email:mail})});const verified=await response.json();if(!response.ok)throw Error(verified.error||'Verification pending');setPaid(true);setClosed(false);setStatus(verified.captured?'Payment captured and verified. Payment ID: '+verified.paymentId:'Payment received; capture is pending. Payment ID: '+verified.paymentId)}
     catch(e){setStatus(e.message+' Please contact support before retrying.')}
-   },modal:{ondismiss:()=>{setClosed(true);setStatus('Checkout closed. No successful payment has been confirmed.')}},theme:{color:'#173c78'}});
+   },modal:{ondismiss:()=>{window.location.replace('https://cheq-ten.vercel.app/')}},theme:{color:'#173c78'}});
    checkout.on('payment.failed',()=>{setClosed(true);setStatus('Payment failed. No successful payment has been confirmed. Check status before retrying.')});
    checkout.open();
   }catch(e){setStatus(e.message)}finally{setBusy(false)}
@@ -29,7 +29,7 @@ export default function HiddenIT(){
    {(closed||paid||preview||(!busy&&status!=='Preparing secure Razorpay checkout...'&&status!=='Loading approved payment...'))&&<p role="status" style={{fontSize:15,color:'#334155'}}>{status}</p>}
    {busy&&<p role="status" style={{color:'#64748b'}}>Opening secure checkout...</p>}
    {closed&&!paid&&<div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap',marginTop:20}}>
-    <a href="https://cheq-ten.vercel.app/#it-maintenance" style={{padding:'12px 18px',borderRadius:10,background:'#173c78',color:'#fff',textDecoration:'none'}}>Back to CHEQ</a>
+    <a href="https://cheq-ten.vercel.app/" style={{padding:'12px 18px',borderRadius:10,background:'#173c78',color:'#fff',textDecoration:'none'}}>Back to CHEQ</a>
     <button type="button" onClick={()=>{setClosed(false);const q=new URLSearchParams(window.location.search);pay(q.get('reference')||'',q.get('email')||'')}} style={{padding:'12px 18px',borderRadius:10,border:'1px solid #cbd5e1',background:'#fff'}}>Reopen Checkout</button>
    </div>}
    {preview&&<p>No payment has been initiated.</p>}

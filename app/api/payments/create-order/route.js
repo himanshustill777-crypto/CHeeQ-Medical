@@ -5,7 +5,7 @@ export async function POST(request){
   if(!process.env.RAZORPAY_KEY_ID?.startsWith('rzp_live_')||!process.env.RAZORPAY_KEY_SECRET)return NextResponse.json({error:'Live payment configuration incomplete'},{status:503});
   const {reference,email}=await request.json();
   if(!/^CD-[A-F0-9]{12}$/.test(reference||'')||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email||''))return NextResponse.json({error:'Valid reference and email required'},{status:400});
-  const base='https://cheq-cheq-ce9ed76b.vercel.app/api/cheq-digital-orders';
+  const base='https://cheq-git-main-cheq-ce9ed76b.vercel.app/api/cheq-digital-orders';
   const response=await fetch(base+'?'+new URLSearchParams({reference,email}),{cache:'no-store'});
   if(!response.ok)return NextResponse.json({error:'Order not found or unavailable'},{status:404});
   const {order}=await response.json();

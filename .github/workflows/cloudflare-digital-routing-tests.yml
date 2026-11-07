@@ -1,0 +1,19 @@
+name: CHEQ Digital Cloudflare routing checks
+on:
+  push:
+    branches:
+      - cloudflare-digital-routing-2026-11-08
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  routing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify internal Cloudflare routing and payment safety
+        run: node --test tests/cloudflare-routing.test.mjs
